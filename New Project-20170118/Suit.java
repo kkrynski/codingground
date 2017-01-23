@@ -4,25 +4,40 @@ import java.util.*;
 
 public enum Suit {
     /*-------------CONSTANT ENUM CLASS VALUES-------------*/
-    CLUBS (0), 
-    SPADES (0), 
-    DIAMONDS (0), 
-    HEARTS (0);
+    CLUBS, 
+    SPADES, 
+    DIAMONDS, 
+    HEARTS;
+    
+    /*-------------------CONSTANTS FOR CLASS--------------*/
+    public static final int DEFAULT_RANK = 0;
+    public static final int DEFAULT_VALUE = 0;
+    public static final int SIZE = Suit.values().length;
     
     /*---------------------PROPERTIES---------------------*/
     private int rank;                   //Represents a suits rank to other suits
+    private int value;
     
     /*--------------------CONSTRUCTOR---------------------*/
-    private Suit(int rank) {
-        this.rank = rank;
+    private Suit() {
+        this.rank = DEFAULT_RANK;
+        this.value = DEFAULT_VALUE;
     }
     
     /*------------------------METHODS---------------------*/
-    public int getRank(){               //Returns the rank of a suit
+    public int getValue() {                 //Returns the value of a suit
+        return this.value;
+    }
+    
+    public void setValue(int v) {           //Sets the value of a suit
+        this.value = v;
+    }
+    
+    private int getRank(){               //Returns the rank of a suit
         return this.rank;   
     }
     
-    public void setRank(int r) {        //Sets the rank of a suit
+    private void setRank(int r) {        //Sets the rank of a suit
         this.rank = r;
     }
     
@@ -38,17 +53,98 @@ public enum Suit {
         return (this.rank == s.getRank());
     }
     
+    public boolean isTopRank() {                    //Checks if a suit is the top rank
+        return (this.rank == Suit.getTopRank());
+    }
+    
+    public boolean isBottomRank() {                 //Checks if a suit is the bottom rank
+        return (this.rank == Suit.getBottomRank());
+    }
+    
     public void swapRank(Suit s) {                  //Swaps rank with a suit
         int oldRank = this.rank;
-        this.setRank(s.getRank());
+        this.rank = s.getRank();
         s.setRank(oldRank);
     }
     
-    public void makeTopRank() {
+    public void makeEqualTopRank() {
         
     }
     
-    public void makeBottomRank() {
+    public void makeEqualBottomRank() {
+        
+    }
+    
+    public void makeAboveTopRank() {
+        
+    }
+    
+    public void makeBelowTopRank() {
+        
+    }
+    
+    public void increaseRank() {
+        
+    }
+    
+    public void decreaseRank() {
+        
+    }
+    
+    /*-------------------STATIC CLASS METHODS----------------------*/
+    public static ArrayList<Suit> getTopSuits() {               //Returns the top ranked suits
+        ArrayList<Suit> topSuits = new ArrayList<Suit>();
+        int topRank = Suit.getTopRank();
+        for (Suit s: Suit.values()) {
+            if (s.getRank() == topRank) {
+                topSuits.add(s);
+            }
+        }
+        return topSuits;
+    }
+    
+    public static ArrayList<Suit> getBottomSuits() {            //Returns the bottom ranked suits
+        ArrayList<Suit> bottomSuits = new ArrayList<Suit>();
+        int bottomRank = Suit.getBottomRank();
+        for (Suit s: Suit.values()) {
+            if (s.getRank() == bottomRank) {
+                bottomSuits.add(s);
+            }
+        }
+        return bottomSuits;
+    }
+    
+    private static int getTopRank() {                   //Returns the top rank
+        int topRank = 0;                //gets reset on first loop iteration
+        int c = 0;
+        for (Suit s : Suit.values()) {
+            if (c == 0 || s.getRank() > topRank) {
+                topRank = s.getRank();
+                c = 1;
+            }
+        }
+        return topRank;
+    }
+    
+    private static int getBottomRank() {                //Returns the bottom rank
+        int bottomRank = 0;                //gets reset on first loop iteration
+        int c = 0;
+        for (Suit s : Suit.values()) {
+            if (c == 0 || s.getRank() < bottomRank) {
+                bottomRank = s.getRank();
+                c = 1;
+            }
+        }
+        return bottomRank;
+    }
+    
+    public static ArrayList<Suit> getSuitsAbove(Suit s) {
+        ArrayList<Suit> suitsAbove = new ArrayList<Suit>();
+        
+        return suitsAbove;
+    }
+    
+    public static ArrayList<Suit> getSuitsBelow(Suit s) {
         
     }
     
