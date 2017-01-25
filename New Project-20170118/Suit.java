@@ -75,14 +75,14 @@ public enum Suit {
         this.rank = Suit.getBottomRank();
     }
     
-    public void makeAboveTopRank() {                //Makes the suit the new top rank
+    public void makeTopRank() {                //Makes the suit the new top rank
         ArrayList<Suit> topSuits = Suit.getTopSuits();
-        if (topSuits.contains(this) && topSuits.size() == 1) {return;}
+        if (topSuits.contains(this) && topSuits.size() == 1) {return;}   //if the suit is alone at the top, do nothing
         int topRank = topSuits.get(0).getRank();            //get the top rank
         if (topRank == SIZE-1) {                            //if the top rank is max
             int bottomRank = Suit.getBottomRank();              //get the bottom rank
             int originalRank = this.rank;
-            for (Suit s : Suit.values()) {                  //then decrease rank of above suits to make room
+            for (Suit s : Suit.values()) {                  //then decrease rank of other suits to make room at top
                 if (bottomRank != 0 || s.getRank() > 1 || s.getRank() > originalRank) {
                     s.decreaseRank();
                 }
@@ -93,8 +93,22 @@ public enum Suit {
         }
     }
     
-    public void makeBelowBottomRank() {                //Makes the suit the new bottom rank
-        
+    public void makeBottomRank() {                //Makes the suit the new bottom rank
+        ArrayList<Suit> bottomSuits = Suit.getBottomSuits();
+        if (bottomSuits.contains(this) && bottomSuits.size() == 1) {return;}   //if the suit is alone at the bottom, do nothing
+        int bottomRank = bottomSuits.get(0).getRank();            //get the bottom rank
+        if (bottomRank == 0) {                            //if the bottom rank is min
+            int topRank = Suit.getTopRank();              //get the top rank
+            int originalRank = this.rank;
+            for (Suit s : Suit.values()) {                  //then increase rank of other suits to make room at bottom
+                if (topRank != SIZE-1 || s.getRank() < SIZE-2 || s.getRank() < originalRank) {
+                    s.increaseRank();
+                }
+            }
+            this.rank = bottomRank;
+        } else {                                            //otherwise just make the suit rank less than the bottom rank
+            this.rank = bottomRank - 1;
+        }
     }
     
     public void increaseRank() {                    //Increases the rank of a suit
@@ -156,12 +170,34 @@ public enum Suit {
         return bottomRank;
     }
     
-    public static ArrayList<Suit> getSuitsAbove(Suit s) {
-        
+    public static ArrayList<Suit> getGreaterSuits(Suit s) {         //Returns all suits greater rank than a suit
+        ArrayList<Suit> aboveSuits = new ArrayList<Suit>();
+        for (Suit c : Suit.values()) {
+            if (c.getRank() > s.getRank()) {
+                aboveSuits.add(c);
+            }
+        }
+        return aboveSuits;
     }
     
-    public static ArrayList<Suit> getSuitsBelow(Suit s) {
-        
+    public static ArrayList<Suit> getLesserSuits(Suit s) {          //Returns all suits lesser rank than a suit
+        ArrayList<Suit> belowSuits = new ArrayList<Suit>();
+        for (Suit c : Suit.values()) {
+            if (c.getRank() < s.getRank()) {
+                belowSuits.add(c);
+            }
+        }
+        return belowSuits;
+    }
+    
+    public static ArrayList<Suit> getEqualSuits(Suit s) {           //Returns all suits equal rank to a suit
+        ArrayList<Suit> equalSuits = new ArrayList<Suit>();
+        for (Suit c : Suit.values()) {
+            if (c.getRank() == s.getRank()) {
+                equalSuits.add(c);
+            }
+        }
+        return equalSuits;
     }
     
     /*------------------COMPARATOR FOR SUIT RANK-----------------*/
