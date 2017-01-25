@@ -67,28 +67,46 @@ public enum Suit {
         s.setRank(oldRank);
     }
     
-    public void makeEqualTopRank() {
+    public void makeEqualTopRank() {                //Makes the suit equal to the top rank
+        this.rank = Suit.getTopRank();
+    }
+    
+    public void makeEqualBottomRank() {             //Makes the suit equal to the bottom rank
+        this.rank = Suit.getBottomRank();
+    }
+    
+    public void makeAboveTopRank() {                //Makes the suit the new top rank
+        ArrayList<Suit> topSuits = Suit.getTopSuits();
+        if (topSuits.contains(this) && topSuits.size() == 1) {return;}
+        int topRank = topSuits.get(0).getRank();            //get the top rank
+        if (topRank == SIZE-1) {                            //if the top rank is max
+            int bottomRank = Suit.getBottomRank();              //get the bottom rank
+            int originalRank = this.rank;
+            for (Suit s : Suit.values()) {                  //then decrease rank of above suits to make room
+                if (bottomRank != 0 || s.getRank() > 1 || s.getRank() > originalRank) {
+                    s.decreaseRank();
+                }
+            }
+            this.rank = topRank;
+        } else {                                            //otherwise just make the suit rank greater than the top rank
+            this.rank = topRank + 1;
+        }
+    }
+    
+    public void makeBelowBottomRank() {                //Makes the suit the new bottom rank
         
     }
     
-    public void makeEqualBottomRank() {
-        
+    public void increaseRank() {                    //Increases the rank of a suit
+        if (this.rank < SIZE-1) {
+            this.rank++;
+        }
     }
     
-    public void makeAboveTopRank() {
-        
-    }
-    
-    public void makeBelowTopRank() {
-        
-    }
-    
-    public void increaseRank() {
-        
-    }
-    
-    public void decreaseRank() {
-        
+    public void decreaseRank() {                    //Decreases the rank of a suit
+        if (this.rank > 0) {
+            this.rank--;
+        }
     }
     
     /*-------------------STATIC CLASS METHODS----------------------*/
@@ -139,9 +157,7 @@ public enum Suit {
     }
     
     public static ArrayList<Suit> getSuitsAbove(Suit s) {
-        ArrayList<Suit> suitsAbove = new ArrayList<Suit>();
         
-        return suitsAbove;
     }
     
     public static ArrayList<Suit> getSuitsBelow(Suit s) {
