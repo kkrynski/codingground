@@ -27,7 +27,9 @@ public enum Suit {
     }
     
     public void setRank(int r) {        //Sets the rank of a suit
-        this.rank = r;
+        if (r >= 0 && r < SIZE) {
+            this.rank = r;
+        }
     }
     
     public boolean isHigherRank(Suit s){        //Checks if a suit is higher rank
@@ -52,7 +54,14 @@ public enum Suit {
 
     /*-------------------STATIC CLASS METHODS----------------------*/
     public static void setRanks(int[] ranks, Suit... suits) {
-        
+        if (ranks.length != suits.length) {
+            return;
+        }
+        for (int i = 0; i < suits.length; i++) {
+            if (i < ranks.length && ranks[i] >=0 && ranks[i] < SIZE) {
+                suits[i].setRank(ranks[i]);
+            }
+        }
     }
     
     public static ArrayList<Suit> getTopSuits() {               //Returns the top ranked suits
